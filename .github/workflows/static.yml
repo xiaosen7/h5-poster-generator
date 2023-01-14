@@ -9,10 +9,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
-
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@main
-      env:
-        BRANCH: gh-pages
-        FOLDER: build
-        BUILD_SCRIPT: npm install -g pnpm && pnpm install && pnpm build
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.17.0'
+    - name: Install Dependencies
+      run: npm install -g pnpm && pnpm install && pnpm build
+    - name: Deploy to GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: gh-pages
+        build_dir: build
